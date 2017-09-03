@@ -1,26 +1,40 @@
 library(shiny)
 
 shinyServer(function(input,output){
-        mtcars$mpgsp<-ifelse(mtcars$mpg-20>0,mtcars$mpg-20,0)
-        model1<-lm(hp~mpg,data=mtcars)
-        model2<-lm(hp~mpgsp+mpg,data=mtcars)
+        model1<-lm(Height~Girth,data=trees)
+        model2<-lm(Height~Volume,data=trees)
         
         mod1pred<-reactive({
-                mpgInput<-input$sliderMPG
-                predit(model1,newdata=data.frame(mpg=mpgInput))
+                girthInput<-input$sliderGirth
+                predict(model1,newdata=data.frame(Girth=girthInput))
         })
         
         mod2pred<-reactive({
-                mpgInput<-input$sliderMPG
-                predict(model2,newdata=data.frame(mpg=mpgInput,mpgsp=ifelse(mpgInput-20>0,mpgInput-20,0)))
+                girthInput<-input$sliderGirth
+                volumeInput<-input$sliderVolume
+                
+                predict(model2,newdata=data.frame(Girth=girthInput,Volume=volumeInput))
         })
         output$plot1<-renderPlot({
                 
-                mpgInput<-input$sliderMPG
-                plot(mtcars$mpg,mtcars$hp,xlab="miles per gallon",xlab="",bty="n",pch=16,xlim=c(10,35),ylim=c(50,350))
+                plot(trees$Girth,trees$Height,xlab="Diameter of Tree in Inches",ylab="Height of Tree in Feet",bty="n",pch=16)
         
-                if(input$showModel1){
-                        abline(model1,col="red",lwd=2)
-                }
+                abline(model1,col="red",lwd=2)
+                
                 })
+        output$plot2<-renderPlot({
+                plot(trees$Volume,trees$Height,xlab="Volume of Timber in Cubic Inches",ylab="Height of Tree in Feet",bty="n",pch=16)
+                
+                abline(model2,col="red",lwd=2)
+                
+                })
+        output$pred1<-renderText({
+                mod1pred()
+        })
+        output$pred2<-renderText({
+                mod2pred()
+        })
+        
+                        
+                
         })

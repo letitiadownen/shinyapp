@@ -1,20 +1,20 @@
 library(shiny)
 
-shinyUI(fluidage(
-        titlePanel("Predict Horsepower from MPG"),
+shinyUI(fluidPage(
+        titlePanel("Predict Height of Black Cherry Trees"),
         sidebarLayout(
                 sidebarPanel(
-                        sliderInput("sliderMPG","What is the MPG of the car?",10,35,value=20),
-                        checkboxInput("showModel1","Show/Hide Model 1",value=TRUE),
-                        checkboxInput("showModel2","Show/Hide Model 2",value=TRUE)
+                        sliderInput("sliderGirth","What is the girth of the tree in inches?",5,25,value=15),
+                        sliderInput("sliderVolume","What is the volume of timber in cubic feet?",10,80,value=45),
+                        h3("Predicted Height of Tree using Model 1:"),
+                        textOutput("pred1"),
+                        h3("Predcicted Height of Tree using Model 2:"),
+                        textOutput("pred2")
                         
                 ),
                 mainPanel(
                 plotOutput("plot1"),
-                h3("Predicted Horsepower from Model 1:"),
-                textOutput("pred1"),
-                h3("Predcicted Horsepower from Model 2:"),
-                textOutput("pred2")
-        )
+                plotOutput("plot2")
+                       )
         )
 ))
