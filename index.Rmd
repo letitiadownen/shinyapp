@@ -1,19 +1,52 @@
 ---
-title: "Shiny App"
+title: "Predicting Black Cherry Tree Height"
 author: "Letitia Downen"
 date: "September 3, 2017"
-output: html_document
+output: ioslides_presentation
 ---
+
+## BackGround
 
 Thirty-one felled black cherry trees were measured.  The trees volume(cubic feet), girth(diameter in inches), and height(ft) was recorded.
 
-Basic linear regression models can try and predict the height of a tree given girth and volume.  
 
-This shiny app shows plots of height by girth and height by volume.  The models include predicting using only girth, only volume, and both girth and volume.
+```{r}
+
+summary(trees)
+```
+
+## What this Shiny App is For
+Basic linear regression models can try and predict the height of a tree given girth and volume.  This shiny app shows plots of height by girth and height by volume.  The models include predicting using only girth, only volume, and both girth and volume.
+```{r echo=FALSE}
+par(mfrow=c(1,2))
+with(trees, plot(Girth,Height))
+with(trees, plot(Volume,Height))
+```
+
+
+## Predict the height of trees using App
+
+WE can predict the height of a tree with Girth = 15 in and Volume = 45 cubic feet using the 3 different models.
+
+```{r echo=FALSE}
+fit1<-lm(Height~Girth,data=trees)
+fit2<-lm(Height~Volume,data=trees)
+fit3<-lm(Height~Girth+Volume,data=trees)
+pred1<-predict(fit1,newdata=data.frame(Girth=15))
+pred2<-predict(fit2,newdata=data.frame(Volume=45))
+pred3<-predict(fit3,newdata=data.frame(Girth=15,Volume=45))
+data.frame(model=c("Girth","Volume","Girth+Volume"),prediction=c(pred1,pred2,pred3))
+```
+
+
+
+##Using the Shiny App
 
 Use the slider to choose the volume and girth of your tree and try and predict its height using the 3 models.
 
+
+Try the predition from the previous screen by visiting the URL!!!  Try it for different trees.
+
 Shiny App URL:  <https://letitiadownen.shinyapps.io/shinyapp/>
 
-
-
+Full Code available on GitHub: <https://github.com/letitiadownen/shinyapp>
