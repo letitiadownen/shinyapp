@@ -3,6 +3,7 @@ library(shiny)
 shinyServer(function(input,output){
         model1<-lm(Height~Girth,data=trees)
         model2<-lm(Height~Volume,data=trees)
+        model3<-lm(Height~Volume+Girth,data=trees)
         
         mod1pred<-reactive({
                 girthInput<-input$sliderGirth
@@ -10,11 +11,18 @@ shinyServer(function(input,output){
         })
         
         mod2pred<-reactive({
+                volumeInput<-input$sliderVolume
+                predict(model2,newdata=data.frame(Volume=volumeInput))
+        })
+        
+        mod3pred<-reactive({
                 girthInput<-input$sliderGirth
                 volumeInput<-input$sliderVolume
                 
-                predict(model2,newdata=data.frame(Girth=girthInput,Volume=volumeInput))
+                predict(model3,newdata=data.frame(Girth=girthInput,Volume=volumeInput))
         })
+        
+        
         output$plot1<-renderPlot({
                 
                 plot(trees$Girth,trees$Height,xlab="Diameter of Tree in Inches",ylab="Height of Tree in Feet",bty="n",pch=16)
@@ -34,6 +42,10 @@ shinyServer(function(input,output){
         output$pred2<-renderText({
                 mod2pred()
         })
+        output$pred3<-renderText({
+                mod3pred()
+        })
+        
         
                         
                 

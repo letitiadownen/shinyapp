@@ -5,6 +5,15 @@ date: "September 3, 2017"
 output: html_document
 ---
 
-```{r}
-library(shiny)
-```
+Thirty-one felled black cherry trees were measured.  The trees volume(cubic feet), girth(diameter in inches), and height(ft) was recorded.
+
+Basic linear regression models can try and predict the height of a tree given girth and volume.  
+
+This shiny app shows plots of height by girth and height by volume.  The models include predicting using only girth, only volume, and both girth and volume.
+
+Use the slider to choose the volume and girth of your tree and try and predict its height using the 3 models.
+
+Shiny App URL:  <https://letitiadownen.shinyapps.io/shinyapp/>
+
+
+
